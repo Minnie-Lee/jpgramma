@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>N2 문법 노트</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="sakura" viewBox="-50 -50 100 100">
+      <g fill="var(--sakura)">
+        <path id="pt" d="M0 -6 C -14 -16, -16 -36, -6 -44 L 0 -38 L 6 -44 C 16 -36, 14 -16, 0 -6Z"/>
+        <use href="#pt" transform="rotate(72)"/><use href="#pt" transform="rotate(144)"/><use href="#pt" transform="rotate(216)"/><use href="#pt" transform="rotate(288)"/>
+      </g>
+      <circle r="6" fill="var(--lemon)"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="petals" id="petals"></div>
+
+<header class="head">
+  <button class="brand" data-go="home" aria-label="홈으로">
+    <svg><use href="#sakura"/></svg>
+    <span><b lang="ja">N2 ぶんぽうノート</b><small>JLPT N2 문법 150개, 하루에 조금씩</small></span>
+  </button>
+  <button class="home-btn" data-go="home" id="home-btn" hidden>처음으로</button>
+</header>
+
+<main class="wrap">
+
+  <!-- 홈 -->
+  <section id="view-home" class="view active">
+    <div class="memo">
+      <div class="hello">
+        <div>
+          <h1 lang="ja">今日もいっしょに<br>がんばろう！</h1>
+          <p>오늘도 같이 힘내 봐요. 어디서부터 할까요?</p>
+        </div>
+      </div>
+      <div class="stickers">
+        <div class="sticker"><b id="st-seen">0</b><span>본 문법</span></div>
+        <div class="sticker s-sora"><b id="st-qpass">0</b><span>퀴즈 통과</span></div>
+        <div class="sticker s-matcha"><b id="st-qfail">0</b><span>복습할 문제</span></div>
+        <div class="sticker s-lav"><b id="st-cpass">0</b><span>작문 통과</span></div>
+      </div>
+      <div class="modes">
+        <button class="mode" data-go="learn"><span class="ic">学</span><b>학습</b><small id="mode-learn-sub">150개 문법과 예문 보기</small></button>
+        <button class="mode m-quiz" data-go="quiz"><span class="ic">問</span><b>퀴즈</b><small>사지선다, 입력, 순서 맞추기</small></button>
+        <button class="mode m-review" data-go="review"><span class="ic">復</span><b>복습</b><small>틀린 문제만 다시 풀기</small></button>
+        <button class="mode m-compose" data-go="compose"><span class="ic">作</span><b>작문</b><small>원고지에 일본어로 써 보기</small></button>
+      </div>
+    </div>
+
+    <div class="memo tape-lemon">
+      <div class="card-head">
+        <div><h2 lang="ja">スタンプカード</h2><p class="lead">문법을 하나 볼 때마다 벚꽃 도장이 찍혀요. 칸을 누르면 그 문법으로 가요.</p></div>
+      </div>
+      <div class="stamps" id="stamps"></div>
+      <div class="legend"><span><i class="lg-seen"></i>학습함</span><span><i class="lg-fail"></i>틀린 문법</span><span><i class="lg-none"></i>아직 안 봄</span></div>
+    </div>
+  </section>
+
+  <!-- 학습 -->
+  <section id="view-learn" class="view">
+    <div class="tools">
+      <select class="jump" id="jump" aria-label="문법 번호로 이동"></select>
+      <button class="btn sm sora" id="shuffle-btn">순서 섞기</button>
+    </div>
+    <article class="memo">
+      <div class="g-top"><span class="g-no"><svg><use href="#sakura"/></svg><span id="g-no">No.001</span></span><span class="g-count" id="learn-count">1 / 150</span></div>
+      <h2 class="g-title" lang="ja" id="g-title"></h2>
+      <span class="g-mean" id="g-mean"></span>
+      <div class="exs" id="g-examples"></div>
+    </article>
+    <div class="pager">
+      <button class="btn" id="prev">이전</button>
+      <button class="btn solid" id="next">다음</button>
+    </div>
+    <p class="kbd">키보드 ← → 키로도 넘길 수 있어요</p>
+  </section>
+
+  <!-- 퀴즈 -->
+  <section id="view-quiz" class="view">
+    <div data-q="menu">
+      <div class="memo tape-sora">
+        <h2>어떤 문제를 풀까요?</h2>
+        <p class="lead">150개 문법에서 랜덤으로 나와요.</p>
+        <div class="list">
+          <button class="item" data-quiz="choice"><span class="ic" lang="ja">選</span><span class="tx"><b>사지선다</b><small>빈칸에 맞는 문법 고르기, 듣고 뜻 고르기</small></span></button>
+          <button class="item i-sakura" data-quiz="input"><span class="ic" lang="ja">書</span><span class="tx"><b>직접 입력</b><small>빈칸에 들어갈 문법을 일본어로 쓰기</small></span></button>
+          <button class="item i-lemon" data-quiz="order"><span class="ic" lang="ja">並</span><span class="tx"><b>순서 맞추기</b><small>단어 조각을 눌러 문장 완성하기</small></span></button>
+          <button class="item i-lav" data-quiz="mix"><span class="ic" lang="ja">混</span><span class="tx"><b>섞어서 풀기</b><small>세 유형이 번갈아 나와요</small></span></button>
+        </div>
+      </div>
+    </div>
+    <div data-q="run" hidden></div>
+  </section>
+
+  <!-- 복습 -->
+  <section id="view-review" class="view">
+    <div data-rv="menu">
+      <div class="memo tape-matcha">
+        <h2>복습하기</h2>
+        <p class="lead">틀린 문제는 다시 맞히면 목록에서 빠져요.</p>
+        <div class="list">
+          <button class="item i-matcha" data-review="fail"><span class="ic" lang="ja">復</span><span class="tx"><b>틀린 문제 다시 풀기</b><small>유형은 랜덤으로 섞여요</small></span><span class="cnt" id="rv-fail">0</span></button>
+          <button class="item" data-review="pass"><span class="ic" lang="ja">花</span><span class="tx"><b>맞힌 문제 다시 확인</b><small>잊어버리지 않았는지 점검하기</small></span><span class="cnt" id="rv-pass">0</span></button>
+          <button class="item i-lav" data-review="compose"><span class="ic" lang="ja">作</span><span class="tx"><b>작문 다시 쓰기</b><small>틀렸다고 표시한 문장만</small></span><span class="cnt" id="rv-compose">0</span></button>
+        </div>
+      </div>
+      <div class="memo tape-sora">
+        <h2>틀린 문법 모아 보기</h2>
+        <p class="lead">누르면 학습 화면에서 다시 볼 수 있어요.</p>
+        <div class="wrongs" id="wrongs"></div>
+        <button class="reset" id="reset-btn">퀴즈·작문 기록 지우기</button>
+      </div>
+    </div>
+    <div data-rv="run" hidden></div>
+  </section>
+
+  <!-- 작문 -->
+  <section id="view-compose" class="view">
+    <div id="compose-root"></div>
+  </section>
+
+</main>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
